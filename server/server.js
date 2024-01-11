@@ -9,8 +9,6 @@ const cookieParser = require("cookie-parser");
 const corsOptions = require("./config/corsOptions");
 const cors = require("cors");
 
-const pool = require("./config/dbConn");
-
 console.log(process.env.NODE_ENV);
 
 app.use(logger);
@@ -25,21 +23,7 @@ app.use("/", express.static(path.join(__dirname, "/public")));
 
 app.use("/", require("./routes/root"));
 
-app.post("/test", async (req, res) => {
-  try {
-    const { id, username, password } = req.body;
-
-    const response = await pool.query(
-      "insert into users (id, username, password) values($1,$2,$3)",
-      [id, username, password]
-    );
-
-    res.json(response);
-    console.log(response);
-  } catch (error) {
-    console.log(error);
-  }
-});
+app.use("/users", require("./routes/userRoutes"));
 
 app.all("*", (req, res) => {
   res.status(404);
