@@ -2,18 +2,16 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const path = require("path");
-const { logger, logEvents } = require("./middleware/logger");
-const PORT = process.env.PORT || 3500;
+const { logger } = require("./middleware/logger");
+const PORT = 3500;
 const errorHandler = require("./middleware/errorHandler");
 const cookieParser = require("cookie-parser");
 const corsOptions = require("./config/corsOptions");
 const cors = require("cors");
-const connectDB = require("./config/dbConn");
-const mongoose = require("mongoose");
+
+const pool = require("./config/dbConn");
 
 console.log(process.env.NODE_ENV);
-
-connectDB();
 
 app.use(logger);
 
@@ -26,6 +24,22 @@ app.use(cookieParser());
 app.use("/", express.static(path.join(__dirname, "/public")));
 
 app.use("/", require("./routes/root"));
+
+app.post("/test", async (req, res) => {
+  try {
+    const { id, username, password } = req.body;
+
+    const response = await pool.query(
+      "insert into users (id, username, password) values($1,$2,$3)",
+      [id, username, password]
+    );
+
+    res.json(response);
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 app.all("*", (req, res) => {
   res.status(404);
@@ -42,15 +56,4 @@ app.all("*", (req, res) => {
 
 app.use(errorHandler);
 
-mongoose.connection.once("open", () => {
-  console.log("Connected to MongoDB");
-  app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
-});
-
-mongoose.connection.on("error", (err) => {
-  console.log(err);
-  logEvents(
-    `${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`,
-    "mongoErrLog.log"
-  );
-});
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

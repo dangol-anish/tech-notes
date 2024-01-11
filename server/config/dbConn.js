@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
+const Pool = require("pg").Pool;
 
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.DATABASE_URI);
-  } catch (error) {
-    console.log(error);
-  }
-};
+const pool = new Pool({
+  host: process.env.HOST,
+  user: process.env.USER,
+  password: process.env.PASSWORD,
+  port: process.env.PORT,
+  database: process.env.DATABASE,
+});
 
-module.exports = connectDB;
+module.exports = pool;
