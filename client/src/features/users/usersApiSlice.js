@@ -13,7 +13,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       validateStatus: (response, result) => {
         return response.status === 200 && !result.isError;
       },
-      keepUnusedDataFor: 5,
+
       //modifies the incoming data, renaming the id field to _id for each user, and then uses usersAdapter.setAll to update the state with the loaded users.
       transformResponse: (responseData) => {
         const loadedUsers = responseData.map((user) => {
