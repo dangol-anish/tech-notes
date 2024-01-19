@@ -44,7 +44,7 @@ const login = asyncHandler(async (req, res) => {
     { username: foundUser.username },
     process.env.REFRESH_TOKEN_SECRET,
     {
-      expiresIn: "30s",
+      expiresIn: "10m",
     }
   );
 
@@ -53,7 +53,7 @@ const login = asyncHandler(async (req, res) => {
     httpOnly: true, //accessible only by web server
     secure: true, //https
     sameSite: "None", //cross-site cookie
-    maxAge: 30000, //cookie expiry: set to match rT
+    maxAge: 600000, //cookie expiry: set to match rT
   });
 
   // Send accessToken containing username and roles

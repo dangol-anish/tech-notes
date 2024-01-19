@@ -25,7 +25,11 @@ const DashHeader = () => {
       await sendLogout();
 
       dispatch(logOut());
-      dispatch(apiSlice.util.resetApiState());
+      // setTimeout maybe
+
+      setTimeout(() => {
+        dispatch(apiSlice.util.resetApiState());
+      }, 1000);
 
       // Navigate to "/"
       navigate("/");
