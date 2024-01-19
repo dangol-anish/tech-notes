@@ -44,7 +44,7 @@ const login = asyncHandler(async (req, res) => {
     { username: foundUser.username },
     process.env.REFRESH_TOKEN_SECRET,
     {
-      expiresIn: "20s",
+      expiresIn: "30s",
     }
   );
 

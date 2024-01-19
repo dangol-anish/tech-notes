@@ -52,7 +52,7 @@ const createNewNote = asyncHandler(async (req, res) => {
   const duplicate = duplicateResult.rows[0];
 
   if (duplicate) {
-    return res.status(409).json({ message: "Duplicate note title" });
+    return res.status(403).json({ message: "Duplicate note title" });
   }
 
   // Create and store the new note
