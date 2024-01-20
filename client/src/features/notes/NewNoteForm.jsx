@@ -14,10 +14,6 @@ const NewNoteForm = ({ users }) => {
   const [text, setText] = useState("");
   const [userId, setUserId] = useState(users[0].id);
 
-  console.log(title);
-  console.log(text);
-  console.log(userId);
-
   useEffect(() => {
     if (isSuccess) {
       setTitle("");
