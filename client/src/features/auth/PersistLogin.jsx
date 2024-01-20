@@ -28,7 +28,11 @@ const PersistLogin = () => {
       }
     };
 
-    if (!token && persist) verifyRefreshToken();
+    if (!token && persist) {
+      verifyRefreshToken();
+    } else if (!token && persist == false) {
+      navigate("/login");
+    }
 
     return () => (effectRan.current = true);
 
